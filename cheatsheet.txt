@@ -1,2 +1,28 @@
 https://www.omdbapi.com/?s=star wars&apikey=adf1f2d7
 <li class='list-inline-item'>
+
+
+const signUp = (event) => {
+  event.preventDefault()
+  const emailValue = document.getElementById("email").value
+  const passwordValue = document.getElementById("password").value
+  
+  const data = {"email": emailValue, "password": passwordValue};
+
+  const options = {
+    method: "POST",
+    headers: {"Content-Type": "application/json"},
+    body: JSON.stringify(data)
+  }
+  
+  fetch("https://reqres.in/api/register", options)
+    .then(response => response.json())
+    .then((data) => {
+      console.log(data)
+    })
+}
+
+// 1. select elements (form)
+const form = document.querySelector("#form")
+// 2. Litsen to a form submit
+form.addEventListener("submit", signUp)
