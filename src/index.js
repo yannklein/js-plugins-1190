@@ -2,74 +2,75 @@
 // Rehearsal
 // //////////////////////
 
-// 1. Select an element (button)
+// // 1. Select elements (button)
 // const button = document.querySelector("#click-me");
-
-// // 2. Listen to an event (click on button)
+// // 2. Listen to an event (click on the button)
 // button.addEventListener("click", (event) => {
-//   // 3. Change the DOM (change the text of the button and disable it)
 //   console.log(event);
-//   event.currentTarget.innerText = "Loading...";
-//   event.currentTarget.disabled = true;
-// });
-
+//   // 3. Change the DOM (innerText, .disabled)
+//   const clickedElement = event.currentTarget;
+//   clickedElement.innerText = "Loading...";
+//   clickedElement.disabled = true;
+// }); 
 
 // //////////////////////
 // HTTP GET request
 // //////////////////////
 
-// 1. Select elements (input, button, list)
+// 1. Select elements (input, search, results)
 const input = document.querySelector("#keyword");
-const button = document.querySelector("#submit");
-const list = document.querySelector("#results");
-
-console.log("before event");
-// 2. Listen to event (click on button)
-button.addEventListener("click", (event) => {
-  console.log(event);
-  console.log("clicked");
-  event.preventDefault();
-  // 2.5 Fetch the OMDB API (get movies!)
-  const url = `https://www.omdbapi.com/?s=${input.value}&apikey=48727053`;
-  // const movies = fetch(url) NOT WORKING
+const search = document.querySelector("#submit");
+const results = document.querySelector("#results");
+console.log("start");
+// 2. Listen to a click on search
+search.addEventListener("click", (event) => {
+  console.log("after click");
+  // console.log(event);
+  event.preventDefault(); // prevent the default reload of the page
+  // 2.5 Fetch the OMDBAPI
+  const url = `https://www.omdbapi.com/?s=${input.value}&apikey=adf1f2d7`;
   fetch(url)
     .then(response => response.json())
     .then((data) => {
-      console.log("data arrives");
+      console.log("get data");
       console.log(data);
+      // 3. Change the DOM (display movies in the results)
       const movies = data.Search;
-      // 3. Change the DOM (display movies in the list)
-      list.innerHTML = "";
+      results.innerHTML = "";
       movies.forEach((movie) => {
-        list.insertAdjacentHTML("beforeend", `
-        <li class='list-inline-item'>
-          <img src="${movie.Poster}" alt="" />
-          <p>${movie.Title}</p>
-        </li>
-        `);
+        results.insertAdjacentHTML(
+          "beforeend",
+          `<li class='list-inline-item'>
+            <img src="${movie.Poster}" alt="" />
+            <p>${movie.Title}</p>
+          </li>`);
       });
-      console.log("after change the dom");
     });
-  console.log("after the fetch");
+    console.log("after fetch");
 });
-console.log("after the addEventListener");
+
+console.log("end of the code");
 
 // //////////////////////
 // HTTP POST request
 // //////////////////////
-const signUp = (event) => {
-  event.preventDefault()
-  const emailValue = document.getElementById("email").value
-  const passwordValue = document.getElementById("password").value
-  
-  const data = {"email": emailValue, "password": passwordValue};
 
+// the structure of data is defined by the API doc
+
+const signUp = (event) => {
+  const data = {"email": emailValue, "password": passwordValue};
+  
   const options = {
     method: "POST",
     headers: {"Content-Type": "application/json"},
     body: JSON.stringify(data)
   }
   
+  // JSON.stringify --> turning some JS code to JSON
+  
+  event.preventDefault()
+  const emailValue = document.getElementById("email").value
+  const passwordValue = document.getElementById("password").value
   fetch("https://reqres.in/api/register", options)
     .then(response => response.json())
     .then((data) => {
@@ -77,7 +78,5 @@ const signUp = (event) => {
     })
 }
 
-// 1. select elements (form)
 const form = document.querySelector("#form")
-// 2. Litsen to a form submit
-form.addEventListener("submit", signUp)
+form.addEventListener("submit", signUp);
