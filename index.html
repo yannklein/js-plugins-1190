@@ -10,24 +10,54 @@
   </head>
   <body>
 
-    <div class="container text-center mt-5">
-      <h1> Let's AJAX! ⚔︎</h1>
+    <div 
+      data-controller="movie"
+      class="container text-center mt-5">
+      <h1> Let's Stimulus! ⚡️</h1>
 
       <form id="search-movies" class="form-inline d-flex justify-content-center m-5">
-        <input id="keyword" type="text" class="form-control" placeholder="Find movies">
-        <input id="submit" type="submit" class="btn btn-primary form-control" value="Search">
+        <input 
+        data-movie-target="keyword"
+          id="keyword" 
+          type="text" 
+          class="form-control" 
+          placeholder="Find movies">
+        <input 
+          data-action="click->movie#searchMovies"
+          id="submit" 
+          type="submit" 
+          class="btn btn-primary form-control" 
+          value="Search">
       </form>
 
-      <form class="form-inline" id="form">
-        <input class="form-control" type="email" id="email" value="eve.holt@reqres.in">
-        <input class="form-control" type="password" id="password" value="pistol">
-        <input class="btn btn-primary btn-block" type="submit">
-      </form>
+      <div data-controller="disable-button">
+        <!-- data-action="event->controller-name#method" -->
+        <a 
+          href="#" 
+          class="btn btn-primary btn-lg"
+          data-action="click->disable-button#disable"
+          data-disable-button-target="click"
+        >
+          Click me
+        </a>
+        <!-- data-controller-name-target="targetValue" -->
+        <a 
+          data-disable-button-target="reset"
+          data-action="click->disable-button#enable"
+          href="#" 
+          class="btn btn-outline-primary d-none"
+        >
+          Reset
+        </a>
+      </div>
 
-      <ul class="list-inline mt-5" id="results">
+      <ul 
+        data-movie-target="results"
+        data-controller="sortable"
+        class="list-inline mt-5" 
+        id="results">
       </ul>
 
-      <!-- <button id="click-me" class="btn btn-primary btn-lg m-5">Click me!</button> -->
 
     </div>
 
